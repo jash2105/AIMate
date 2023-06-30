@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/pashpashpash/vault/chunk"
+	"github.com/jash2105/vault/chunk"
 	openai "github.com/sashabaranov/go-openai"
 )
 

@@ -12,8 +12,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/pashpashpash/vault/chunk"
-	"github.com/pashpashpash/vault/vectordb"
+	"github.com/jash2105/vault/chunk"
+	"github.com/jash2105/vault/vectordb"
 )
 
 type PineconeVector struct {

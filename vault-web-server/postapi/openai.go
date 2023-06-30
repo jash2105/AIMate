@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pashpashpash/vault/chunk"
+	"github.com/jash2105/vault/chunk"
 	"github.com/pkoukk/tiktoken-go"
 	openai "github.com/sashabaranov/go-openai"
 )

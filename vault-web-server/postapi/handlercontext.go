@@ -1,7 +1,7 @@
 package postapi
 
 import (
-	"github.com/pashpashpash/vault/vectordb"
+	"github.com/jash2105/vault/vectordb"
 
 	cache "github.com/patrickmn/go-cache"
 	openai "github.com/sashabaranov/go-openai"
