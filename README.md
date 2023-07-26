@@ -1,85 +1,80 @@
-# AImate 
+# AImate - Advanced Knowledge Extraction and Question-Answering Tool
 
 ## Introduction
-Welcome to AImate, a powerful tool that utilizes the OP Stack (OpenAI + Pinecone Vector Database) to enable users to upload their own custom knowledgebase files and ask questions about their contents.
 
-**Website**: 
+AImate is an advanced knowledge extraction and question-answering tool that leverages cutting-edge technologies like OpenAI and Pinecone Vector Database. This powerful tool enables users to upload their custom knowledgebase files and obtain accurate and contextually relevant answers to their queries. The primary focus is on processing human-readable content such as books, letters, and documents, making AImate an indispensable tool for extracting knowledge and insights from vast repositories of textual data.
 
+## Key Features
 
+- **Custom Knowledge Base:** Users can effortlessly upload various document types, including PDFs, plain text, .docx, and .epub files, to create their custom knowledge base.
 
-With AImate, you can quickly set up your own Golang server along with a user-friendly React frontend, allowing users to ask OpenAI questions about the specific knowledge base provided. The primary focus is on human-readable content like books, letters, and other documents, making it a practical and valuable tool for knowledge extraction and question-answering. Users can upload an entire library's worth of books and documents and receive pointed answers along with the name of the file and specific section within the file that the answer is based on!
+- **Intelligent Question-Answering:** AImate utilizes state-of-the-art AI from OpenAI to provide precise and informative answers to user questions based on the content within the uploaded documents.
 
-## Features
+- **Contextual Snippets:** The system not only presents answers but also provides context snippets from the source documents, allowing users to understand the reasoning behind the answers.
 
-With AImate, you can:
+- **Scalable Database:** AImate harnesses the Pinecone Vector Database to efficiently store and index embeddings generated from the uploaded content. This ensures fast and accurate retrieval of information during question-answering.
 
-- Upload a variety of popular document types via a simple React frontend to create a custom knowledge base.
-- Retrieve accurate and relevant answers based on the content of your uploaded documents.
-- View the filenames and specific context snippets that inform the answer.
-- Explore the power of the OP Stack (OpenAI + Pinecone Vector Database) in a user-friendly interface.
-- Load entire libraries' worth of books into AImate.
+## Tech Stack
 
-## Manual Dependencies
+AImate is built using a robust tech stack, combining the power of various technologies to deliver seamless knowledge extraction and question-answering capabilities:
 
-Before getting started, ensure that you have the following dependencies installed:
+- **Frontend:** The user-friendly and interactive frontend is developed using React.js, a popular JavaScript library for building modern web applications.
 
-- Node v19
-- Go v1.18.9 (darwin/arm64)
-- Poppler
+- **Backend:** The backend server is built using Golang (Go), a high-performance language known for its concurrency support and efficiency.
+
+- **Embedding Generation:** AImate employs OpenAI's state-of-the-art Natural Language Processing models to generate meaningful embeddings for text data, forming the basis of accurate question-answering.
+
+- **Storage and Retrieval:** The Pinecone Vector Database is integrated into the system to efficiently store the embeddings, enabling fast and scalable retrieval of information during question-answering.
+
+- **Text Extraction:** For document parsing and text extraction, AImate uses Poppler, a widely used PDF and document utility.
+
+## Future Development: Dockerization and Kubernetes Deployment
+
+In future development, AImate is planned to be dockerized to simplify deployment across different environments. Docker containers will encapsulate the application and its dependencies, ensuring consistency and reproducibility during deployment. Additionally, AImate aims to leverage Kubernetes for container orchestration, enabling seamless scaling and management of the application in a distributed environment. Kubernetes will empower AImate to handle high loads and provide a robust and fault-tolerant user experience.
 
 ## Setup
 
-1. Install manual dependencies as mentioned above.
+To set up AImate on your local machine, follow these steps:
 
-2. Set up your API keys and endpoints in the secret folder:
+1. Ensure you have Node v19 and Go v1.18.9 (darwin/arm64) installed.
+
+2. Install the necessary dependencies:
+   ```
+   sudo apt-get install -y poppler-utils # On Ubuntu
+   brew install poppler # On Mac
+   ```
+
+3. Obtain API keys and endpoints:
    - Create a new file `secret/openai_api_key` and paste your OpenAI API key into it.
    - Create a new file `secret/pinecone_api_key` and paste your Pinecone API key into it.
-   - When setting up your Pinecone index, use a vector size of 1536 and keep all the default settings the same.
-   - Create a new file `secret/pinecone_api_endpoint` and paste your Pinecone API endpoint into it.
+   - Create a new file `secret/pinecone_api_endpoint` and paste your Pinecone API endpoint URL into it.
 
-3. Running the development environment:
-   - Install JavaScript package dependencies: `npm install`
-   - Run the Golang web server (default port: 8100): `npm start`
-   - In another terminal window, run Webpack to compile the JS code and create a `bundle.js` file: `npm run dev`
-   - Visit the local version of the site at [http://localhost:8100](http://localhost:8100)
+4. Install JavaScript package dependencies:
+   ```
+   npm install
+   ```
 
-## Screenshots
+5. Start the Golang web server:
+   ```
+   npm start
+   ```
 
-In the example screenshots, I uploaded a couple of books by Plato and some letters by Alexander Hamilton, showcasing the ability of AImate to answer questions based on the uploaded content.
+6. Compile the JS code and create a `bundle.js` file:
+   ```
+   npm run dev
+   ```
 
-### Uploading Files
-![Uploading Files](upload_screenshots.png)
-
-### Asking Questions
-![Asking Questions](question_screenshots.png)
+7. Visit the local version of the site at [http://localhost:8100](http://localhost:8100)
 
 ## Under the Hood
 
-The Golang server uses POST APIs to process incoming uploads and respond to questions:
+AImate's backend server handles incoming uploads and question-answering using POST APIs:
 
-- `/upload` for uploading files
-- `/api/question` for answering questions
-
-All API endpoints are declared in the `vault-web-server/main.go` file.
-
-### Uploading Files and Processing Them into Embeddings
-
-The `vault-web-server/postapi/fileupload.go` file contains the `UploadHandler` logic for handling incoming uploads on the backend. The `UploadHandler` function is responsible for handling file uploads (with a maximum total upload size of 300 MB) and processing them into embeddings to store in Pinecone. It accepts PDF, epub, .docx, and plain text files, extracts text from them, and divides the content into chunks. Using the OpenAI API, it obtains embeddings for each chunk and upserts (inserts or updates) the embeddings into Pinecone. The function returns a JSON response containing information about the uploaded files and their processing status.
-
-### Storing Embeddings into Pinecone DB
-
-After getting OpenAI embeddings for each chunk of an uploaded file, the server stores all of the embeddings, along with associated metadata, in the Pinecone DB. The metadata includes file_name, start, end, title, and text. This metadata is useful for providing context to the embeddings and is used to display additional information about the matched embeddings when retrieving results from the Pinecone database.
-
-### Answering Questions
-
-The `QuestionHandler` function in `vault-web-server/postapi/questions.go` is responsible for handling all incoming questions. When a question is entered on the frontend and the user presses "search" (or enter), the server uses the OpenAI embeddings API once again to get an embedding for the question (query vector). This query vector is used to query the Pinecone DB to get the most relevant context for the question. Finally, a prompt is built by packing the most relevant context + the question in a prompt string that adheres to OpenAI token limits.
-
-## Frontend Information
-
-The frontend of AImate is built using React.js and Less for styling.
+- `/upload`: Handles file uploads, processing them into embeddings stored in the Pinecone Vector Database.
+- `/api/question`: Handles incoming questions, utilizing OpenAI embeddings to retrieve the most relevant answers from the database.
 
 ## Generative Question-Answering with Long-Term Memory
 
-If you'd like to read more about this topic, I recommend this post from the Pinecone blog: [Generative Question-Answering with Long-Term Memory](https://www.pinecone.io/learn/openai-gen-qa/).
+For more in-depth insights into the generative question-answering technique employed by AImate, we recommend reading the post from the Pinecone blog: [Generative Question-Answering with Long-Term Memory](https://www.pinecone.io/learn/openai-gen-qa/).
 
-I hope you enjoy using AImate! If you have any questions or feedback, feel free to reach out!
+We hope you enjoy using AImate for knowledge extraction and question-answering. For any inquiries or feedback, feel free to reach out!
