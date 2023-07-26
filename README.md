@@ -15,9 +15,10 @@ AImate is an advanced knowledge extraction and question-answering tool that leve
 - **Scalable Database:** AImate harnesses the Pinecone Vector Database to efficiently store and index embeddings generated from the uploaded content. This ensures fast and accurate retrieval of information during question-answering.
 
 ## Usage 
-<img width="973" alt="Screenshot 2023-07-22 at 3 41 35 AM" src="https://github.com/jash2105/AIMate/assets/101602768/3ec1dd85-8fe2-46a8-9596-d2e2cc5edb14">
-
-
+<img width="1219" alt="Screenshot 2023-07-27 at 3 26 51 AM" src="https://github.com/jash2105/AIMate/assets/101602768/9d966d37-d9bc-47c3-8cbc-1698cebb7b6f">
+<img width="1215" alt="Screenshot 2023-07-27 at 3 27 56 AM" src="https://github.com/jash2105/AIMate/assets/101602768/e39f412b-6106-460b-b79a-c18ff0410f07">
+<img width="1260" alt="Screenshot 2023-07-27 at 3 28 43 AM" src="https://github.com/jash2105/AIMate/assets/101602768/1ee068f8-2945-49d4-8324-ea408b8b5e7f">
+<img width="1195" alt="Screenshot 2023-07-27 at 3 28 54 AM" src="https://github.com/jash2105/AIMate/assets/101602768/83d0c9c5-6254-428e-a296-afc164b353b4">
 
 ## Tech Stack
 
